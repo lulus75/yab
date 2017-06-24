@@ -1,0 +1,23 @@
+<table>
+    <tr>
+        {# sorting of properties based on query components #}
+        <th>{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'Title', 'p.title') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'content', 'p.content') }}</th>
+        <th {% if pagination.isSorted('p.date') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Release', ['p.date']) }}</th>
+    </tr>
+
+
+    {% for post in pagination %}
+        <tr {% if loop.index is odd %}class="color"{% endif %}>
+            <td>{{ post.id }}</td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.content | truncate(200,true)}}</td>
+            <td>{{ post.date | date('Y-m-d') }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{# display navigation #}
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>

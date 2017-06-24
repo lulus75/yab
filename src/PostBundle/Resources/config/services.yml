@@ -1,0 +1,11 @@
+services:
+    admin.post:
+        class: PostBundle\Admin\PostAdmin
+        arguments: [~, PostBundle\Entity\Post, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Post, group: 'Blog' }
+
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
