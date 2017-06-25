@@ -1,22 +1,18 @@
 <?php
-// src/AppBundle/Admin/CommentAdmin.php
-namespace PostBundle\Admin;
+namespace CommentBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class PostAdmin extends AbstractAdmin
+class CommentAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->add('title')
             ->add('content')
-            ->add('author')
-            ->add('categories',null, array("by_reference" => false))
-            ->add('comments',null, array("by_reference" => false))
         ;
 
     }
@@ -26,10 +22,6 @@ class PostAdmin extends AbstractAdmin
         $datagridMapper
             ->add('title')
             ->add('content')
-            ->add('date')
-            ->add('author')
-            ->add('categories')
-            ->add('comments')
         ;
 
     }
@@ -39,11 +31,7 @@ class PostAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('title')
             ->add('content')
-            ->add('date')
-            ->add('author')
-            ->add('categories')
-            ->add('comments')
-            ;
+        ;
 
     }
 }

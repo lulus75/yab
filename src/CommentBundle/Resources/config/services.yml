@@ -1,0 +1,11 @@
+services:
+    admin.comment:
+        class: CommentBundle\Admin\CommentAdmin
+        arguments: [~, CommentBundle\Entity\Comment, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Comment, group: 'Blog' }
+
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }

@@ -58,11 +58,20 @@ class Post
     private $categories;
 
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="CommentBundle\Entity\Comment", mappedBy="posts")
+     */
+    private $comments;
+
+
 
     public function __construct(){
         $this->date = new \DateTime();
         $this->categories = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
+
 
     /**
      * Get id
@@ -203,5 +212,39 @@ class Post
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \CommentBundle\Entity\Comment $comment
+     *
+     * @return Post
+     */
+    public function addComment(\CommentBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \CommentBundle\Entity\Comment $comment
+     */
+    public function removeComment(\CommentBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
