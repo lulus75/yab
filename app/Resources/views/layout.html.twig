@@ -8,7 +8,12 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-user"></span> connexion</a></li>
+                 {% if app.user %}
+                     <li><a href="{{ path('fos_user_profile_show')}}"><span class="glyphicon glyphicon-user"></span> profile</a></li>
+                     <li><a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> logout</a></li>
+                {% elseif not app.user %}
+                    <li><a href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-user"></span> connexion</a></li>
+                 {% endif %}
             </ul>
         </div>
     </div>
