@@ -2,6 +2,7 @@
 
 namespace PostBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,8 +51,17 @@ class Post
      */
     private $author;
 
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="CategoryBundle\Entity\Category", mappedBy="posts")
+     */
+    private $categories;
+
+
+
     public function __construct(){
         $this->date = new \DateTime();
+        $this->categories = new ArrayCollection();
     }
 
     /**
@@ -135,11 +145,11 @@ class Post
     /**
      * Set author
      *
-     * @param \UserBundle\Entity\User $author
+     * @param \Application\Sonata\UserBundle\Entity\User $author
      *
      * @return Post
      */
-    public function setAuthor(\UserBundle\Entity\User $author = null)
+    public function setAuthor(\Application\Sonata\UserBundle\Entity\User $author = null)
     {
         $this->author = $author;
 
@@ -154,5 +164,44 @@ class Post
     public function getAuthor()
     {
         return $this->author;
+    }
+
+  
+
+    /**
+     * Add category
+     *
+     * @param \CategoryBundle\Entity\Category $category
+     *
+     * @return Post
+     */
+    public function addCategory(\CategoryBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+        $category->addPost($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \CategoryBundle\Entity\Category $category
+     */
+    public function removeCategory(\CategoryBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+        $category->removePost($this);
+
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

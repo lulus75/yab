@@ -15,6 +15,7 @@ class PostAdmin extends AbstractAdmin
             ->add('title')
             ->add('content')
             ->add('author')
+            ->add('categories',null, array("by_reference" => false))
         ;
 
     }
@@ -26,6 +27,7 @@ class PostAdmin extends AbstractAdmin
             ->add('content')
             ->add('date')
             ->add('author')
+            ->add('categories')
         ;
 
     }
@@ -37,6 +39,7 @@ class PostAdmin extends AbstractAdmin
             ->add('content')
             ->add('date')
             ->add('author')
+            ->add('categories')
             ;
 
     }
