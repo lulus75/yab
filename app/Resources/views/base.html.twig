@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% if form is defined %}
+            {% form_theme form 'bootstrap_3_layout.html.twig' %}
+        {% endif %}
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
     </head>
     <body>
+    {% block navigation %}{% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

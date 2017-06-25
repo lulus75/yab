@@ -1,23 +1,29 @@
-<table>
-    <tr>
-        {# sorting of properties based on query components #}
-        <th>{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'Title', 'p.title') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'content', 'p.content') }}</th>
-        <th {% if pagination.isSorted('p.date') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Release', ['p.date']) }}</th>
-    </tr>
+{% extends 'layout.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row center">
 
+            {% for post in pagination %}
+                <div class="col-sm-4">
 
-    {% for post in pagination %}
-        <tr {% if loop.index is odd %}class="color"{% endif %}>
-            <td>{{ post.id }}</td>
-            <td>{{ post.title }}</td>
-            <td>{{ post.content | truncate(200,true)}}</td>
-            <td>{{ post.date | date('Y-m-d') }}</td>
-        </tr>
-    {% endfor %}
-</table>
-{# display navigation #}
-<div class="navigation">
-    {{ knp_pagination_render(pagination) }}
-</div>
+                    <div class=" panel panel-primary">
+                        <div class="panel-heading">{{ post.title }}</div>
+                        {% for category in post.categories %}
+                            <span class="label label-danger">{{ category.name }}</span>
+                        {% endfor %}
+                        <div class="panel-body">{{ post.content | truncate(200,true)}}</div>
+                       <div class="text-center"> <a href="#" class="center btn btn-primary">Read More</a></div><br>
+                        <div class="panel-footer">{{ post.date | date('Y-m-d') }} &nbsp; Posted by : {{ post.author }}</div>
+
+                    </div>
+                </div>
+
+            {% endfor %}
+
+            {# display navigation #}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
