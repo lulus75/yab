@@ -2,8 +2,11 @@
 
 namespace PostBundle\Controller;
 
+use CommentBundle\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -33,11 +36,17 @@ class DefaultController extends Controller
 
         $em = $this -> getDoctrine() -> getManager();
 
+        $check = substr($slug,0,7);
         $res = substr($slug,0,1);
         $newslug = substr($slug,1);
 
-        if( $res == '1'){
+    if ($check == 'login'){
 
+        $post = null;
+        return $this->render('PostBundle:Post:show.html.twig', array('post' => $post));
+    }
+
+        if( $res == '1'){
 
 
             $category = $em -> getRepository('CategoryBundle:Category')->findOneBySlug($newslug);
@@ -60,8 +69,29 @@ class DefaultController extends Controller
 
             $post = $em -> getRepository('PostBundle:Post')->findOneBySlug($newslug);
 
+            $comment = new Comment();
+            $comment->setAuthor($this->getUser());
+            $comment->setPost($post);
+            $comment->setDate(new \DateTime());
+
+            $form = $this->createFormBuilder($comment)
+                ->add('content', TextType::class, array('label' => 'Content : ', 'data' => ''))
+                ->add('save', SubmitType::class, array('label' => 'Comment'))
+                ->getForm();
+
+            $form->handleRequest($request);
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $comment = $form->getData();
+                $em->persist($comment);
+                $em->flush();
+            }
+
+
+
             if($post){
-                return $this->render('PostBundle:Post:show.html.twig', array('post' => $post));
+                return $this->render('PostBundle:Post:show.html.twig', array('post' => $post, "form" => $form->createView()));
             }
 
         }

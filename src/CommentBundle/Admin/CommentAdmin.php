@@ -11,8 +11,9 @@ class CommentAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('title')
             ->add('content')
+            ->add('post')
+            ->add('author')
         ;
 
     }
@@ -20,8 +21,9 @@ class CommentAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('title')
             ->add('content')
+            ->add('author')
+            ->add('post')
         ;
 
     }
@@ -29,8 +31,9 @@ class CommentAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('title')
-            ->add('content')
+            ->addIdentifier('content')
+            ->add('post')
+            ->add('author')
         ;
 
     }

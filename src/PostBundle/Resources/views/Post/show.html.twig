@@ -8,30 +8,64 @@
         {{ render(controller(
         'FOSUserBundle:Security:login'
         )) }}
-    {% endif %}
 
-    {% if currentPath == '/register' %}
+    {% elseif currentPath == '/register' %}
         {{ render(controller(
         'FOSUserBundle:registration:register'
         )) }}
     {% endif %}
 
     {% if post is not null %}
-    <div class="container">
+        <div class="container">
         <div class="row text-center">
-            <div class="col-lg-3"></div>
-            <div class="col-lg-6">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
 
-                <div class=" panel panel-primary">
-                    <div class="panel-heading">{{ post.title }}</div>
-                    {% for category in post.categories %}
-                        <span class="label label-danger">{{ category.name }}</span>
-                    {% endfor %}
-                    <div class="panel-body">{{ post.content }}</div>
-                    <div class="panel-footer">{{ post.date | date('Y-m-d') }} &nbsp; Posted by : {{ post.author }}</div>
-                </div>
+            <div class=" panel panel-primary">
+                <div class="panel-heading">{{ post.title }}</div>
+                {% for category in post.categories %}
+                    <span class="label label-danger">{{ category.name }}</span>
+                {% endfor %}
+                <div class="panel-body">{{ post.content }}</div>
+                <div class="panel-footer">{{ post.date | date('Y-m-d') }} &nbsp; Posted by : {{ post.author }}</div>
             </div>
         </div>
-    </div>
+
+
+        <div class="col-sm-12">
+            <h3>Comments</h3>
+        </div>
+
+
+        {% for comment in post.comments %}
+            <div class="row">
+            <div class="col-lg-6">
+            <div class="col-sm-1">
+                <div class="thumbnail">
+                    <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                </div><!-- /thumbnail -->
+            </div><!-- /col-sm-1 -->
+
+            <div class="col-sm-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>{{ comment.author.username }}</strong> <span class="text-muted">commented {{ comment.date|date("Y/m/d") }}</span>
+                    </div>
+                    <div class="panel-body">
+                        {{ comment.content }}
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        {% endfor %}
+
+
+        {% if is_granted('ROLE_USER') %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
         {% endif %}
+
+    {% endif %}
 {% endblock %}

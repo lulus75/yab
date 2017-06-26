@@ -61,7 +61,7 @@ class Post
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="CommentBundle\Entity\Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="CommentBundle\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
      */
     private $comments;
      
@@ -78,6 +78,13 @@ class Post
         $this->date = new \DateTime();
         $this->categories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        if ($this->getTitle() && $this->getAuthor())
+            return $this->getTitle();
+        return "";
     }
 
 
@@ -232,7 +239,6 @@ class Post
     public function addComment(\CommentBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
-        $comment->setPost($this);
 
         return $this;
     }

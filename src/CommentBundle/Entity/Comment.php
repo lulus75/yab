@@ -24,13 +24,6 @@ class Comment
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="content", type="text")
      */
     private $content;
@@ -42,10 +35,23 @@ class Comment
      */
     private $post;
 
+    /**
+     * Many Features have One Product.
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="posts")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     */
+    private $author;
 
-    public function __toString()
-    {
-        return $this->title ? : "" ;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    public function __construct(){
+        $this->date = new \DateTime();
     }
 
     /**
@@ -57,31 +63,7 @@ class Comment
     {
         return $this->id;
     }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Comment
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
+    
     /**
      * Set content
      *
@@ -152,5 +134,53 @@ class Comment
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Comment
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $author
+     *
+     * @return Comment
+     */
+    public function setAuthor(\Application\Sonata\UserBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }
