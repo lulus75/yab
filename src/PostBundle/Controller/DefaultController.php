@@ -90,8 +90,6 @@ class DefaultController extends Controller
                 $em->flush();
             }
 
-
-
             if($post){
                 return $this->render('PostBundle:Post:show.html.twig', array('post' => $post, "form" => $form->createView()));
             }
@@ -105,6 +103,6 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('CategoryBundle:Category');
         $categories = $repository->findAll();
-        $this->get('twig')->addGlobal('is_test', $categories);
+        $this->get('twig')->addGlobal('categories', $categories);
     }
 }
