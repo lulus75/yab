@@ -1,8 +1,10 @@
-{% if categories is defined %}
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        {% for categorie in categories %}
-            <a class="dropdown-item"
-               href="{{ path('display_post',{'slug':"1"~categorie.slug}) }}">{{ categorie.name }}</a>
-        {% endfor %}
-    </div>
-{% endif %}
+
+    {% if is_test is not null %}
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for categorie in is_test %}
+                <a class="dropdown-item"
+                   href="{{ path('display_post',{'slug':"1"~categorie.slug}) }}">{{ categorie.name }}</a>
+            {% endfor %}
+        </div>
+    {% endif %}
+

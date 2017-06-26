@@ -16,6 +16,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->getAllCategories();
         $em    = $this->get('doctrine.orm.entity_manager');
         $dql   = "SELECT p FROM PostBundle:Post p ORDER BY p.date DESC ";
         $query = $em->createQuery($dql);
@@ -34,6 +35,7 @@ class DefaultController extends Controller
      */
     public function slugAction($slug, Request $request){
 
+        $this->getAllCategories();
         $em = $this -> getDoctrine() -> getManager();
 
         $check = substr($slug,0,7);
@@ -96,5 +98,13 @@ class DefaultController extends Controller
 
         }
         return $this->redirectToRoute("post_default_index");
+    }
+
+    public function getAllCategories()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('CategoryBundle:Category');
+        $categories = $repository->findAll();
+        $this->get('twig')->addGlobal('is_test', $categories);
     }
 }
