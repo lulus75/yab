@@ -4,12 +4,14 @@ namespace PostBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 /**
  * Post
  *
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="PostBundle\Repository\PostRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Post
 {
@@ -57,13 +59,19 @@ class Post
      */
     private $categories;
 
-
     /**
      *
-     * @ORM\OneToMany(targetEntity="CommentBundle\Entity\Comment", mappedBy="posts")
+     * @ORM\OneToMany(targetEntity="CommentBundle\Entity\Comment", mappedBy="post")
      */
     private $comments;
-
+     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string")
+     *
+     */
+    private $slug;
 
 
     public function __construct(){
@@ -224,6 +232,7 @@ class Post
     public function addComment(\CommentBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
+        $comment->setPost($this);
 
         return $this;
     }
@@ -246,5 +255,38 @@ class Post
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Post
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setSlugValue()
+    {
+        $slugify = new Slugify();
+        $this->slug =  $slugify->slugify($this->title);
     }
 }

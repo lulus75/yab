@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+{% block body %}
+
+    {% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+
+    {% if currentPath == '/login' %}
+        {{ render(controller(
+        'FOSUserBundle:Security:login'
+        )) }}
+    {% endif %}
+
+    {% if currentPath == '/register' %}
+        {{ render(controller(
+        'FOSUserBundle:registration:register'
+        )) }}
+    {% endif %}
+
+    {% if post is not null %}
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+
+                <div class=" panel panel-primary">
+                    <div class="panel-heading">{{ post.title }}</div>
+                    {% for category in post.categories %}
+                        <span class="label label-danger">{{ category.name }}</span>
+                    {% endfor %}
+                    <div class="panel-body">{{ post.content }}</div>
+                    <div class="panel-footer">{{ post.date | date('Y-m-d') }} &nbsp; Posted by : {{ post.author }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+{% endblock %}

@@ -16,7 +16,7 @@ class PostAdmin extends AbstractAdmin
             ->add('content')
             ->add('author')
             ->add('categories',null, array("by_reference" => false))
-            ->add('comments',null, array("by_reference" => false))
+            ->add('comments')
         ;
 
     }

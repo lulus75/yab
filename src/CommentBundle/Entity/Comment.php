@@ -40,12 +40,12 @@ class Comment
      * @ORM\ManyToOne(targetEntity="PostBundle\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    private $posts;
+    private $post;
 
 
     public function __toString()
     {
-        return $this->title;
+        return $this->title ? : "" ;
     }
 
     /**
@@ -128,5 +128,29 @@ class Comment
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set post
+     *
+     * @param \PostBundle\Entity\Post $post
+     *
+     * @return Comment
+     */
+    public function setPost(\PostBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \PostBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
     }
 }

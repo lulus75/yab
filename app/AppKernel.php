@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new PostBundle\PostBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new CategoryBundle\CategoryBundle(),
+            new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
             new CommentBundle\CommentBundle(),
         ];
 
