@@ -13,15 +13,12 @@ class DefaultController extends Controller
     }
 
 
-    /**
-     * @Route ("/test",name="test_category")
-     */
+
     public function getAllCategories()
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('CategoryBundle:Category');
         $categories = $repository->findAll();
-        dump($categories);
-        return $this->render('CategoryBundle:layout.html.twig',array('categories'=>$categories));
+        return $this->render('CategoryBundle:Default:categories.html.twig',array('categories'=>$categories));
     }
 }
